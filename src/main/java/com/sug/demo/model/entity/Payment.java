@@ -1,14 +1,19 @@
 package com.sug.demo.model.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "Payments")
-public class Payment {
+public class Payment implements Serializable {
+	private static final long serialVersionUID = -7041692600263236998L;
+	@Id
 	@Column(name = "id")
 	private long id;
 	@Column(name = "amount")

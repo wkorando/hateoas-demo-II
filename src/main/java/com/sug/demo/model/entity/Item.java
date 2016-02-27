@@ -4,13 +4,18 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "Items")
 public class Item implements Serializable {
 	private static final long serialVersionUID = -2587993829804340097L;
+	@Id
 	@Column(name = "id")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 	@Column(name = "name")
 	private String name;
@@ -59,5 +64,11 @@ public class Item implements Serializable {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	@Override
+	public String toString() {
+		return "Item [id=" + id + ", name=" + name + ", description=" + description + ", price=" + price + ", type="
+				+ type + "]";
 	}
 }

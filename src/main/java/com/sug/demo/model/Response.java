@@ -2,9 +2,10 @@ package com.sug.demo.model;
 
 import org.springframework.http.HttpStatus;
 
-public class Response {
-	private HttpStatus httpStatus;
+public class Response<T> {
+	private HttpStatus httpStatus = HttpStatus.OK;
 	private String message;
+	private T responseBody;
 
 	public HttpStatus getHttpStatus() {
 		return httpStatus;
@@ -21,4 +22,13 @@ public class Response {
 	public void setMessage(String message) {
 		this.message = message;
 	}
+
+	public T getResponseBody() {
+		return responseBody;
+	}
+
+	public void setResponseBody(T responseBody) {
+		this.responseBody = responseBody;
+	}
+
 }

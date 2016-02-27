@@ -1,12 +1,17 @@
 package com.sug.demo.model.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "Customers")
-public class Customer {
+public class Customer implements Serializable{
+	private static final long serialVersionUID = 354804267764758714L;
+	@Id
 	@Column(name = "id")
 	private long id;
 	@Column(name = "firstName")
