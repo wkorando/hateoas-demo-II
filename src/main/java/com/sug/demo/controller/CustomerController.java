@@ -1,5 +1,8 @@
 package com.sug.demo.controller;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +30,7 @@ public class CustomerController {
 	private OrderService orderService;
 	@Autowired
 	private PaymentService paymentService;
-	
+
 	@RequestMapping(value = "/{id}")
 	public ResponseEntity<Response<Customer>> findCustomerById(@PathVariable("id") String id) {
 		Response<Customer> response = customerService.findCustomerById(id);
@@ -43,10 +46,17 @@ public class CustomerController {
 	}
 
 	@RequestMapping("/{id}/orders/{orderId}")
-	public ResponseEntity<Response<List<Order>>> findOrderForCustomerById(@PathVariable("id") String id,
+	public ResponseEntity<Response<Order>> findOrderForCustomerById(@PathVariable("id") String id,
 			@PathVariable("orderId") String orderId) {
-		Response<List<Order>> response = orderService.findOrderForCustomerById(id, orderId);
-		ResponseEntity<Response<List<Order>>> responseEntity = new ResponseEntity<>(response, response.getHttpStatus());
+		Response<Order> response = orderService.findOrderForCustomerById(id, orderId);
+		if (response.getResponseBody().getStatus().equals("OPEN")) {
+			Payment payment = null;
+			response.add(linkTo(methodOn(CustomerController.class).payForOrder(id,
+					Long.toString(response.getResponseBody().getId()), payment)).withRel("pay"));
+		}
+		response.add(linkTo(methodOn(CustomerController.class).updateCustomerOrder(id,
+				Long.toString(response.getResponseBody().getId()), response.getResponseBody())).withRel("modify"));
+		ResponseEntity<Response<Order>> responseEntity = new ResponseEntity<>(response, response.getHttpStatus());
 		return responseEntity;
 	}
 
@@ -54,6 +64,9 @@ public class CustomerController {
 	public ResponseEntity<Response<Order>> createCustomerOrder(@PathVariable("id") String id,
 			@RequestBody Order order) {
 		Response<Order> response = orderService.createNewOrder(id, order);
+		Payment payment = null;
+		response.add(linkTo(methodOn(CustomerController.class).payForOrder(id, Long.toString(order.getId()), payment))
+				.withRel("pay"));
 		ResponseEntity<Response<Order>> responseEntity = new ResponseEntity<>(response, response.getHttpStatus());
 		return responseEntity;
 	}
@@ -62,6 +75,11 @@ public class CustomerController {
 	public ResponseEntity<Response<Order>> updateCustomerOrder(@PathVariable("id") String id,
 			@PathVariable("orderId") String orderId, @RequestBody Order order) {
 		Response<Order> response = orderService.updateOrder(id, orderId, order);
+		if (response.getResponseBody().getStatus().equals("OPEN")) {
+			Payment payment = null;
+			response.add(linkTo(methodOn(CustomerController.class).payForOrder(id,
+					Long.toString(response.getResponseBody().getId()), payment)).withRel("pay"));
+		}
 		ResponseEntity<Response<Order>> responseEntity = new ResponseEntity<>(response, response.getHttpStatus());
 		return responseEntity;
 	}
@@ -100,7 +118,7 @@ public class CustomerController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Response<String>> deleteCustomer(@PathVariable("id") String id) {
 		Response<String> response = customerService.deleteCustomer(id);
-		ResponseEntity<Response<String>> responseEntity = new ResponseEntity<>(response, response.getHttpStatus());	
+		ResponseEntity<Response<String>> responseEntity = new ResponseEntity<>(response, response.getHttpStatus());
 		return responseEntity;
 	}
 }

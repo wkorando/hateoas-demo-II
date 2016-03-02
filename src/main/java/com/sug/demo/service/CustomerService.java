@@ -18,7 +18,7 @@ public class CustomerService {
 	public Response<Customer> createCustomer(Customer customer) {
 		Response<Customer> response = new Response<>();
 		try {
-			customerRepo.save(customer);
+			response.setResponseBody(customerRepo.save(customer));
 		} catch (Exception exception) {
 			LOG.error("Error occurred while attempting to save customer: "
 					+ (customer != null ? customer.toString() : null), exception);

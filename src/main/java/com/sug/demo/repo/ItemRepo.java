@@ -8,5 +8,5 @@ import com.sug.demo.model.entity.Item;
 
 public interface ItemRepo extends JpaRepository<Item, Long> {
 
-	public List<Item> findItemByType(String type);
+	public List<Item> findByType(String type);
 }

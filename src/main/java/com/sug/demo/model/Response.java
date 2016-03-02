@@ -1,8 +1,9 @@
 package com.sug.demo.model;
 
+import org.springframework.hateoas.ResourceSupport;
 import org.springframework.http.HttpStatus;
 
-public class Response<T> {
+public class Response<T> extends ResourceSupport {
 	private HttpStatus httpStatus = HttpStatus.OK;
 	private String message;
 	private T responseBody;

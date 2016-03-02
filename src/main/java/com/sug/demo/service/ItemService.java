@@ -21,7 +21,13 @@ public class ItemService {
 	public Response<List<Item>> findAllItems() {
 		Response<List<Item>> response = new Response<>();
 		try {
-			response.setResponseBody(itemRepo.findAll());
+			List<Item> items = itemRepo.findAll();
+			if (!items.isEmpty()) {
+				response.setResponseBody(items);
+			} else {
+				response.setHttpStatus(HttpStatus.NOT_FOUND);
+			}
+
 		} catch (Exception exception) {
 			LOG.error("Error occurred while attempting to retrieve items.", exception);
 			response.setMessage("An error occurred while attempting to retrieve items. Please try again later.");
@@ -33,9 +39,9 @@ public class ItemService {
 	public Item findItemById(long id) {
 		return itemRepo.findOne(id);
 	}
-	
+
 	public List<Item> findItemByType(String type) {
-		return itemRepo.findItemByType(type);
+		return itemRepo.findByType(type);
 	}
 
 	public Response<Item> createItem(Item item) {
