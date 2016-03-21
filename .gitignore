@@ -1,9 +1,5 @@
 .classpath
 .project
-.mvn/wrapper/maven-wrapper.jar
-.mvn/wrapper/maven-wrapper.properties
-.settings/org.eclipse.core.resources.prefs
-.settings/org.eclipse.jdt.core.prefs
-.settings/org.eclipse.m2e.core.prefs
-.settings/org.eclipse.wst.common.project.facet.core.xml
-target/
+.mvn
+.settings
+/target
