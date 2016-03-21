@@ -28,8 +28,10 @@ public class ItemController {
 	@RequestMapping
 	public ResponseEntity<Response<List<Item>>> allItems() {
 		Response<List<Item>> response = itemService.findAllItems();
-		response.add(linkTo(methodOn(CustomerController.class).updateCustomerOrder("123", "1", new Order()))
-				.withRel("next"));
+		if (!response.getResponseBody().isEmpty()) {
+			response.add(linkTo(methodOn(CustomerController.class).updateCustomerOrder("123", "1", new Order()))
+					.withRel("next"));
+		}
 		ResponseEntity<Response<List<Item>>> responseEntity = new ResponseEntity<>(response, response.getHttpStatus());
 		return responseEntity;
 	}
@@ -37,10 +39,9 @@ public class ItemController {
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Response<Item>> addItem(@RequestBody Item item) {
 		Response<Item> response = itemService.createItem(item);
-		response.add(linkTo(methodOn(ItemController.class).updateItem(Long.toString(item.getId()), item))
-				.withRel("modify"));
-		response.add(linkTo(methodOn(ItemController.class).deleteItem(Long.toString(item.getId())))
-				.withRel("delete"));
+		response.add(
+				linkTo(methodOn(ItemController.class).updateItem(Long.toString(item.getId()), item)).withRel("modify"));
+		response.add(linkTo(methodOn(ItemController.class).deleteItem(Long.toString(item.getId()))).withRel("delete"));
 		ResponseEntity<Response<Item>> responseEntity = new ResponseEntity<>(response, response.getHttpStatus());
 		return responseEntity;
 	}
@@ -48,10 +49,9 @@ public class ItemController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Response<Item>> updateItem(@PathVariable("id") String id, @RequestBody Item item) {
 		Response<Item> response = itemService.updateItem(Long.valueOf(id), item);
-		response.add(linkTo(methodOn(ItemController.class).updateItem(Long.toString(item.getId()), item))
-				.withRel("self"));
-		response.add(linkTo(methodOn(ItemController.class).deleteItem(Long.toString(item.getId())))
-				.withRel("delete"));
+		response.add(
+				linkTo(methodOn(ItemController.class).updateItem(Long.toString(item.getId()), item)).withRel("self"));
+		response.add(linkTo(methodOn(ItemController.class).deleteItem(Long.toString(item.getId()))).withRel("delete"));
 		ResponseEntity<Response<Item>> responseEntity = new ResponseEntity<>(response, response.getHttpStatus());
 		return responseEntity;
 	}

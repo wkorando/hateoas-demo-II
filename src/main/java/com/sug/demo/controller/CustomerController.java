@@ -38,13 +38,6 @@ public class CustomerController {
 		return responseEntity;
 	}
 
-	@RequestMapping("/{id}/orders")
-	public ResponseEntity<Response<List<Order>>> findOrdersForCustomer(@PathVariable("id") String id) {
-		Response<List<Order>> response = orderService.findOrdersByCustomerId(id);
-		ResponseEntity<Response<List<Order>>> responseEntity = new ResponseEntity<>(response, response.getHttpStatus());
-		return responseEntity;
-	}
-
 	@RequestMapping("/{id}/orders/{orderId}")
 	public ResponseEntity<Response<Order>> findOrderForCustomerById(@PathVariable("id") String id,
 			@PathVariable("orderId") String orderId) {
