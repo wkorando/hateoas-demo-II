@@ -1,11 +1,18 @@
 package com.sug.demo.config;
 
+import java.io.IOException;
+import java.util.Properties;
+
+import javax.annotation.Resource;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 import org.hibernate.jpa.HibernatePersistenceProvider;
+import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
@@ -20,6 +27,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories({ "com.sug.demo.repo" })
+@PropertySource("hibernate.properties")
 public class HibernateConfiguration {
 
 	@Bean
@@ -30,6 +38,14 @@ public class HibernateConfiguration {
 	}
 
 	@Bean
+	public Properties hibernateProperties() throws IOException {
+		PropertiesFactoryBean factoryBean = new PropertiesFactoryBean();
+		factoryBean.setLocation(new ClassPathResource("hibernate.properties"));
+		factoryBean.afterPropertiesSet();
+		return factoryBean.getObject();
+	}
+
+	@Bean
 	public JpaTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
 		JpaTransactionManager transactionManager = new JpaTransactionManager();
 		transactionManager.setEntityManagerFactory(entityManagerFactory);
@@ -37,12 +53,14 @@ public class HibernateConfiguration {
 	}
 
 	@Bean
-	public EntityManagerFactory entityManagerFactory(DataSource dataSource, JpaVendorAdapter jpaVendorAdapter) {
+	public EntityManagerFactory entityManagerFactory(DataSource dataSource, JpaVendorAdapter jpaVendorAdapter,
+			Properties hibernateProperties) {
 		LocalContainerEntityManagerFactoryBean entityManager = new LocalContainerEntityManagerFactoryBean();
 		entityManager.setDataSource(dataSource);
 		entityManager.setPersistenceProviderClass(HibernatePersistenceProvider.class);
 		entityManager.setPackagesToScan("com.sug.demo.model.entity");
 		entityManager.setJpaVendorAdapter(jpaVendorAdapter());
+		entityManager.setJpaProperties(hibernateProperties);
 		entityManager.afterPropertiesSet();
 		return entityManager.getObject();
 	}
