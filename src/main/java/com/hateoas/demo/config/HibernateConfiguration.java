@@ -1,9 +1,8 @@
-package com.sug.demo.config;
+package com.hateoas.demo.config;
 
 import java.io.IOException;
 import java.util.Properties;
 
-import javax.annotation.Resource;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
@@ -26,7 +25,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories({ "com.sug.demo.repo" })
+@EnableJpaRepositories("com.hateoas.demo.repo")
 @PropertySource("hibernate.properties")
 public class HibernateConfiguration {
 
@@ -58,7 +57,7 @@ public class HibernateConfiguration {
 		LocalContainerEntityManagerFactoryBean entityManager = new LocalContainerEntityManagerFactoryBean();
 		entityManager.setDataSource(dataSource);
 		entityManager.setPersistenceProviderClass(HibernatePersistenceProvider.class);
-		entityManager.setPackagesToScan("com.sug.demo.model.entity");
+		entityManager.setPackagesToScan("com.hateoas.demo.model.entity");
 		entityManager.setJpaVendorAdapter(jpaVendorAdapter());
 		entityManager.setJpaProperties(hibernateProperties);
 		entityManager.afterPropertiesSet();

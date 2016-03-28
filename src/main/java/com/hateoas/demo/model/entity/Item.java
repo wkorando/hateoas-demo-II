@@ -1,4 +1,4 @@
-package com.sug.demo.model.entity;
+package com.hateoas.demo.model.entity;
 
 import java.io.Serializable;
 
@@ -9,13 +9,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.data.rest.core.annotation.RestResource;
+
+/**
+ * Simple example of an item to be sold.
+ * 
+ * @author williamkorando
+ *
+ */
 @Entity
 @Table(name = "Items")
 public class Item implements Serializable {
 	private static final long serialVersionUID = -2587993829804340097L;
 	@Id
 	@Column(name = "id")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	@Column(name = "name")
 	private String name;
@@ -25,6 +33,12 @@ public class Item implements Serializable {
 	private double price;
 	@Column(name = "type")
 	private String type;
+	/**
+	 * We don't want to show this field to the outside world. It's secret!
+	 */
+	@Column(name = "secret_field")
+	@RestResource(exported=false)
+	private String secretField;
 
 	public long getId() {
 		return id;

@@ -1,7 +1,7 @@
-package com.sug.demo.utils;
+package com.hateoas.demo.utils;
 
-import com.sug.demo.model.entity.Item;
-import com.sug.demo.model.entity.Order;
+import com.hateoas.demo.model.entity.Item;
+import com.hateoas.demo.model.entity.Order;
 
 public final class OrderUtils {
 	private OrderUtils() {

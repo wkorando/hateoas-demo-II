@@ -1,4 +1,4 @@
-package com.sug.demo.model.entity;
+package com.hateoas.demo.model.entity;
 
 import java.io.Serializable;
 
@@ -9,6 +9,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+/**
+ * Simple example of tracking a payment a customer made.
+ * 
+ * @author williamkorando
+ *
+ */
 @Entity
 @Table(name = "Payments")
 public class Payment implements Serializable {
@@ -46,3 +52,5 @@ public class Payment implements Serializable {
 		this.order = order;
 	}
 }
+
+
