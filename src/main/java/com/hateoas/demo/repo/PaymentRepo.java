@@ -17,7 +17,7 @@ import com.hateoas.demo.model.entity.Payment;
  * @author williamkorando
  *
  */
-@PreAuthorize("hasRole('ROLE_USER')")
+@PreAuthorize("hasRole('USER')")
 public interface PaymentRepo extends Repository<Payment, Long> {
 	Payment findOne(Long id);
 

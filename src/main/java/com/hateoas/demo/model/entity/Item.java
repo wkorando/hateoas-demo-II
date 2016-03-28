@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.springframework.data.rest.core.annotation.RestResource;
+import org.springframework.hateoas.Identifiable;
 
 /**
  * Simple example of an item to be sold.
@@ -19,12 +20,12 @@ import org.springframework.data.rest.core.annotation.RestResource;
  */
 @Entity
 @Table(name = "Items")
-public class Item implements Serializable {
+public class Item implements Serializable, Identifiable<Long> {
 	private static final long serialVersionUID = -2587993829804340097L;
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 	@Column(name = "name")
 	private String name;
 	@Column(name = "description")
@@ -37,14 +38,15 @@ public class Item implements Serializable {
 	 * We don't want to show this field to the outside world. It's secret!
 	 */
 	@Column(name = "secret_field")
-	@RestResource(exported=false)
+	@RestResource(exported = false)
 	private String secretField;
 
-	public long getId() {
+	@Override
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -78,6 +80,14 @@ public class Item implements Serializable {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public String getSecretField() {
+		return secretField;
+	}
+
+	public void setSecretField(String secretField) {
+		this.secretField = secretField;
 	}
 
 	@Override

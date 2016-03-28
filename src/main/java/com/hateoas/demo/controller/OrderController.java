@@ -20,11 +20,11 @@ public class OrderController {
 	@Autowired
 	private OrderRepo orderRepo;
 
-	@PreAuthorize("hasRole('ROLE_USER')")
+	@PreAuthorize("hasRole('USER')")
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Resource<Order>> createNewOrder(@RequestBody Item item) {
 		Resource<Order> order = new Resource<>(new Order());
-		order.getContent().addItem(item);
+//		order.getContent().addItem(item);
 		orderRepo.save(order.getContent());
 		// order.add(linkTo(methodOn(PaymentController.class).payForOrder(order.getContent())).withRel("payForOrder"));
 		return ResponseEntity.ok(order);

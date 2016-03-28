@@ -19,6 +19,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
+	@Override
 	@Autowired
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.inMemoryAuthentication().withUser("admin").password("admin").roles("ADMIN")//
@@ -27,6 +28,6 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().anyRequest().anonymous().and().httpBasic();
+		http.csrf().disable().authorizeRequests().anyRequest().authenticated().and().httpBasic();
 	}
 }

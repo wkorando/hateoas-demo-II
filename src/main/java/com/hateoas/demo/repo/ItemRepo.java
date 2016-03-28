@@ -22,7 +22,7 @@ import com.hateoas.demo.model.entity.Item;
  * @author williamkorando
  *
  */
-//@RepositoryRestResource(collectionResourceRel = "merchandise", path = "merchandise")
+@RepositoryRestResource(collectionResourceRel = "merchandise", path = "merchandise")
 public interface ItemRepo extends PagingAndSortingRepository<Item, Long> {
 	/**
 	 * Items should not be allowed to by deleted over the web.
@@ -37,15 +37,17 @@ public interface ItemRepo extends PagingAndSortingRepository<Item, Long> {
 	void delete(Iterable<? extends Item> items);
 
 	@RestResource(exported = false)
-	void deleteAll();
+	void deleteAll(); 
+	
+	
 
 	/**
-	 * Only administrators should be able to make changes to an Item.
+	 * Only administrators should be able to create/make changes to an Item.
 	 */
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+//	@PreAuthorize("hasRole('ADMIN')")
 	<S extends Item> S save(S entity);
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	<S extends Item> Iterable<S> save(Iterable<S> entities);
 
 	/**

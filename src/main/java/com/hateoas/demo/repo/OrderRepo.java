@@ -17,13 +17,15 @@ import com.hateoas.demo.model.entity.Order;
  * @author williamkorando
  * @see PaymentRepo
  */
-@PreAuthorize("hasRole('ROLE_USER')")
+@PreAuthorize("hasRole('USER')")
 @RestResource(exported = false)
 public interface OrderRepo extends CrudRepository<Order, Long> {
 
+	@Override
 	@RestResource(exported = true)
 	Order findOne(Long id);
 
+	@Override
 	@RestResource(exported = true)
 	<S extends Order> S save(S entity);
 }
