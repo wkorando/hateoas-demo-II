@@ -23,6 +23,12 @@ import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+/**
+ * Wire up JPA using Hibernate.
+ * 
+ * @author williamkorando
+ *
+ */
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories("com.hateoas.demo.repo")

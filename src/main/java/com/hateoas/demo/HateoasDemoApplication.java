@@ -2,9 +2,13 @@ package com.hateoas.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.data.rest.RepositoryRestMvcAutoConfiguration;
-import org.springframework.context.annotation.Import;
 
+/**
+ * Spring Bootify this application.
+ * 
+ * @author williamkorando
+ *
+ */
 @SpringBootApplication
 public class HateoasDemoApplication {
 
