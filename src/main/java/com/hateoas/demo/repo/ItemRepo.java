@@ -22,7 +22,7 @@ import com.hateoas.demo.model.entity.Item;
  * @author williamkorando
  *
  */
-@RepositoryRestResource(collectionResourceRel = "merchandise", path = "merchandise")
+//@RepositoryRestResource(collectionResourceRel = "merchandise", path = "merchandise")
 public interface ItemRepo extends PagingAndSortingRepository<Item, Long> {
 	/**
 	 * Items should not be allowed to by deleted over the web.
@@ -83,5 +83,5 @@ public interface ItemRepo extends PagingAndSortingRepository<Item, Long> {
 	 */
 	@RestResource(path = "byMaxPriceAndType")
 	@Query("SELECT i FROM Item i WHERE i.price <= :maxPrice AND i.type = :type")
-	List<Item> findItemsLessThan(@Param("maxPrice") double maxPrice, @Param("type") String type);
+	List<Item> findItemsLessThanAndType(@Param("maxPrice") double maxPrice, @Param("type") String type);
 }
