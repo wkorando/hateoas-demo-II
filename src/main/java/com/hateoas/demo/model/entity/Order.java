@@ -24,7 +24,7 @@ import org.springframework.hateoas.Identifiable;
 @Entity
 @Table(name = "Orders")
 public class Order implements Serializable, Identifiable<Long> {
-	private static final long serialVersionUID = -6335164270935973263L;
+	private static final long serialVersionUID = -7100263602279291309L;
 	@Id
 	@Column(name = "id")
 	private Long id;
@@ -37,31 +37,38 @@ public class Order implements Serializable, Identifiable<Long> {
 	@OneToOne
 	@JoinColumn(name = "payment_id")
 	private Payment payment;
+
 	@Override
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public String getStatus() {
 		return status;
 	}
+
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
 	public List<Item> getItems() {
 		return items;
 	}
+
 	public void setItems(List<Item> items) {
 		this.items = items;
 	}
+
 	public Payment getPayment() {
 		return payment;
 	}
+
 	public void setPayment(Payment payment) {
 		this.payment = payment;
 	}
 
-	
 }

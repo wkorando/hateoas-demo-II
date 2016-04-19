@@ -12,6 +12,8 @@ import javax.persistence.Table;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.hateoas.Identifiable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Simple example of an item to be sold.
  * 
@@ -21,7 +23,7 @@ import org.springframework.hateoas.Identifiable;
 @Entity
 @Table(name = "Items")
 public class Item implements Serializable, Identifiable<Long> {
-	private static final long serialVersionUID = -2587993829804340097L;
+	private static final long serialVersionUID = 7880531135730386493L;
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,10 +37,10 @@ public class Item implements Serializable, Identifiable<Long> {
 	@Column(name = "type")
 	private String type;
 	/**
-	 * We don't want to show this field to the outside world. It's secret!
+	 * Don't show this field to the outside world. It's secret!
 	 */
+	@JsonIgnore
 	@Column(name = "secret_field")
-	@RestResource(exported = false)
 	private String secretField;
 
 	@Override
@@ -88,11 +90,5 @@ public class Item implements Serializable, Identifiable<Long> {
 
 	public void setSecretField(String secretField) {
 		this.secretField = secretField;
-	}
-
-	@Override
-	public String toString() {
-		return "Item [id=" + id + ", name=" + name + ", description=" + description + ", price=" + price + ", type="
-				+ type + "]";
 	}
 }

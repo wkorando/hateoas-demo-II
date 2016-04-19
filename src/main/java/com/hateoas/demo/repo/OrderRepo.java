@@ -18,7 +18,6 @@ import com.hateoas.demo.model.entity.Order;
  * @see PaymentRepo
  */
 @PreAuthorize("hasRole('USER')")
-@RestResource(exported = false)
 public interface OrderRepo extends CrudRepository<Order, Long> {
 
 	@Override

@@ -6,6 +6,7 @@ import org.springframework.data.rest.webmvc.support.RepositoryEntityLinks;
 import org.springframework.hateoas.Identifiable;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -37,7 +38,7 @@ public class ItemController {
 	 * @return
 	 */
 	@RequestMapping("/{id}")
-	public ResponseEntity<?> viewItem(@PathVariable String id) {
+	public ResponseEntity<Resource<Item>> viewItem(@PathVariable String id) {
 		Item item = itemRepo.findOne(Long.valueOf(id));
 
 		Resource<Item> resource = new Resource<Item>(item);

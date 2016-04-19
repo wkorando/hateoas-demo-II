@@ -9,6 +9,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.security.access.prepost.PreAuthorize;
 
+import com.hateoas.demo.model.ItemSummary;
 import com.hateoas.demo.model.entity.Item;
 
 /**
@@ -22,7 +23,7 @@ import com.hateoas.demo.model.entity.Item;
  * @author williamkorando
  *
  */
-@RepositoryRestResource(collectionResourceRel = "merchandise", path = "merchandise")
+@RepositoryRestResource(collectionResourceRel = "merchandise", path = "merchandise", excerptProjection = ItemSummary.class)
 public interface ItemRepo extends PagingAndSortingRepository<Item, Long> {
 	/**
 	 * Items should not be allowed to by deleted over the web.
@@ -37,14 +38,12 @@ public interface ItemRepo extends PagingAndSortingRepository<Item, Long> {
 	void delete(Iterable<? extends Item> items);
 
 	@RestResource(exported = false)
-	void deleteAll(); 
-	
-	
+	void deleteAll();
 
 	/**
 	 * Only administrators should be able to create/make changes to an Item.
 	 */
-//	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	<S extends Item> S save(S entity);
 
 	@PreAuthorize("hasRole('ADMIN')")

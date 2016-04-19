@@ -2,6 +2,7 @@ package com.hateoas.demo.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,6 +29,12 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests().anyRequest().authenticated().and().httpBasic();
+		http.csrf().disable()
+				.antMatcher("/merchandise").authorizeRequests().antMatchers(HttpMethod.POST).hasAnyRole("ADMIN")//
+				.and().antMatcher("/items").authorizeRequests().antMatchers(HttpMethod.PUT).hasAnyRole("ADMIN")//
+				.and().antMatcher("/**").authorizeRequests().antMatchers(HttpMethod.DELETE).denyAll()//
+				.and().antMatcher("/merchandise").authorizeRequests().antMatchers(HttpMethod.GET).permitAll()//
+				.and().antMatcher("/**").authorizeRequests().anyRequest().authenticated()
+				.and().httpBasic();
 	}
 }
