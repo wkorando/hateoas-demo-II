@@ -16,7 +16,7 @@ public class RestConfiguration extends RepositoryRestConfigurerAdapter {
 
 	@Override
 	public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
-		config.setBasePath("api");
+//		config.setBasePath("api");
 	}
 
 }

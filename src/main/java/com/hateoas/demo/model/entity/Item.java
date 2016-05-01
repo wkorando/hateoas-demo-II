@@ -38,7 +38,7 @@ public class Item implements Serializable, Identifiable<Long> {
 	/**
 	 * Don't show this field to the outside world. It's secret!
 	 */
-	@JsonIgnore
+//	@JsonIgnore
 	@Column(name = "secret_field")
 	private String secretField;
 
